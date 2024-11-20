@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as d3 from "d3";
-import "./App.css";
+import "./Child1.css";
 
 class Child1 extends Component {
   state = { 
@@ -66,6 +66,82 @@ class Child1 extends Component {
     svg.append("g")
       .attr("transform", `translate(${margin.left},0)`)
       .call(d3.axisLeft(y));
+    
+      const tooltip = d3.select("#chart")
+      .append("div")
+      .style("position", "absolute")
+      .style("background", "#fff")
+      .style("border", "1px solid #ccc")
+      .style("padding", "5px")
+      .style("display", "none");
+    
+    data.forEach(d => {
+      svg.append("circle")
+        .attr("cx", x(d.Date))
+        .attr("cy", y(d.Open))
+        .attr("r", 4)
+        .attr("fill", "#b2df8a")
+        .on("mouseover", (event) => {
+          tooltip.style("display", "block")
+            .html(`
+              <strong>Date:</strong> ${d.Date.toLocaleDateString()}<br/>
+              <strong>Open:</strong> ${d.Open}<br/>
+              <strong>Close:</strong> ${d.Close}<br/>
+              <strong>Difference:</strong> ${(d.Close - d.Open).toFixed(2)}
+            `)
+            .style("left", `${event.pageX + 10}px`)
+            .style("top", `${event.pageY - 20}px`);
+        })
+        .on("mouseout", () => tooltip.style("display", "none"));
+    
+      svg.append("circle")
+        .attr("cx", x(d.Date))
+        .attr("cy", y(d.Close))
+        .attr("r", 4)
+        .attr("fill", "#e41a1c")
+        .on("mouseover", (event) => {
+          tooltip.style("display", "block")
+            .html(`
+              <strong>Date:</strong> ${d.Date.toLocaleDateString()}<br/>
+              <strong>Open:</strong> ${d.Open}<br/>
+              <strong>Close:</strong> ${d.Close}<br/>
+              <strong>Difference:</strong> ${(d.Close - d.Open).toFixed(2)}
+            `)
+            .style("left", `${event.pageX + 10}px`)
+            .style("top", `${event.pageY - 20}px`);
+        })
+        .on("mouseout", () => tooltip.style("display", "none"));
+      }); 
+      
+      const legend = svg.append("g")
+      .attr("transform", `translate(${width},${margin.top})`);
+
+      legend.append("circle")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("r", 5)
+      .attr("fill", "#b2df8a");
+
+      legend.append("text")
+      .attr("x", 10)
+      .attr("y", 5)
+      .text("Open")
+      .style("font-size", "12px")
+      .attr("alignment-baseline", "middle");
+
+      legend.append("circle")
+      .attr("cx", 0)
+      .attr("cy", 20)
+      .attr("r", 5)
+      .attr("fill", "#e41a1c");
+
+      legend.append("text")
+      .attr("x", 10)
+      .attr("y", 25)
+      .text("Close")
+      .style("font-size", "12px")
+      .attr("alignment-baseline", "middle");
+
   }  
 
   render() {

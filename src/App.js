@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./App.css";
+import "./Child1.css";
 import FileUpload from "./FileUpload";
 import Child1 from "./Child1";
 
