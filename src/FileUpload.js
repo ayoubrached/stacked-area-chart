@@ -26,37 +26,33 @@ class FileUpload extends Component {
   };
 
   csvToJson = (csv) => {
-    const lines = csv.split("\n");  // Split by new line to get rows
-    const headers = lines[0].split(","); // Split first row to get headers
-    const result = [];
+  const lines = csv.split("\n"); // Split by new line to get rows
+  const headers = lines[0].split(","); // Split first row to get headers
+  const result = [];
 
-    for (let i = 1; i < lines.length; i++) {
-      const currentLine = lines[i].split(","); // Split each line by comma
-      const obj = {};
+  for (let i = 1; i < lines.length; i++) {
+    const currentLine = lines[i].split(","); // Split each line by comma
+    const obj = {};
 
-      // Map each column value to the corresponding header
-      headers.forEach((header, index) => {
-        obj[header.trim()] = currentLine[index]?.trim(); // Trim to remove spaces
-      });
-
-      // Add object to result if it's not an empty row
-      if (Object.keys(obj).length && lines[i].trim()) {
-        const parsedObj = {
-          Date:new Date(obj.Date),
-          Company: obj.Company,
-          Open: parseFloat(obj.Open),
-          High: parseFloat(obj.High),
-          Low: parseFloat(obj.Low),
-          Close: parseFloat(obj.Close),
-          AdjClose: parseFloat(obj["Adj Close"]),
-          Volume: parseInt(obj.Volume, 10),
-        };
-        result.push(parsedObj);
+    // Map each column value to the corresponding header
+    headers.forEach((header, index) => {
+      const value = currentLine[index]?.trim(); // Trim to remove spaces
+      if (header === "Date") {
+        obj[header] = new Date(value); // Parse Date field
+      } else {
+        obj[header] = parseFloat(value) || 0; // Parse numeric fields
       }
-    }
+    });
 
-    return result;
-  };
+    // Add object to result if it's not an empty row
+    if (Object.keys(obj).length && lines[i].trim()) {
+      result.push(obj);
+    }
+  }
+
+  return result;
+};
+
 
   render() {
     return (
