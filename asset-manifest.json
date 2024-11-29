@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/stacked-area-chart/static/css/main.c82fc9d7.css",
+    "main.js": "/stacked-area-chart/static/js/main.c87ea066.js",
+    "index.html": "/stacked-area-chart/index.html",
+    "main.c82fc9d7.css.map": "/stacked-area-chart/static/css/main.c82fc9d7.css.map",
+    "main.c87ea066.js.map": "/stacked-area-chart/static/js/main.c87ea066.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c82fc9d7.css",
+    "static/js/main.c87ea066.js"
+  ]
+}
